@@ -72,7 +72,6 @@ while getopts "s:p:t:d:c:" optname; do
         CIPHERS=$(echo $CIPHERS | sed -e 's/:/ /g')
       else
         echo "-c needs to a valid OpenSSL cipher. Please validate with 'openssl ciphers "$OPTARG"'."
-        echo $CIPHERS
         exit 1
       fi
       ;;
@@ -103,7 +102,6 @@ echo "-----------------------------"
 
 for CIPHER in ${CIPHERS[@]};do
   OPENSSLPARAM="-cipher $CIPHER $TEMPOPENSSLPARAM"
-  echo "$OPENSSLPARAM"
   echo -n Testing $CIPHER...
   result=$(echo -n | openssl s_client $OPENSSLPARAM 2>&1)
   if [[ "$result" =~ "Cipher is ${CIPHER}" || "$result" =~ "Cipher    :" ]] ; then
